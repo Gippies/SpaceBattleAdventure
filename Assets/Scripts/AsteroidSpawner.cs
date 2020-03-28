@@ -14,12 +14,12 @@ public class AsteroidSpawner : MonoBehaviour {
 
     private float _timeRemaining;
 
-    void Start() {
+    private void Start() {
         _timeRemaining = Random.Range(0.0f, MaxSpawnTime);
     }
 
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         if (_timeRemaining > 0.0f) {
             _timeRemaining -= Time.deltaTime;
         }

@@ -6,7 +6,7 @@ public class BulletBehavior : MonoBehaviour {
     private const float Speed = 20.0f;
     
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         Vector3 velocity = Vector3.up * Speed;
         transform.Translate(velocity * Time.deltaTime, Space.Self);
 
