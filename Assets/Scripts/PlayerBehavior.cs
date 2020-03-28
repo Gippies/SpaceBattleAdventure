@@ -34,7 +34,7 @@ public class PlayerBehavior : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.CompareTag("Asteroid")) {
+        if (other.gameObject.CompareTag("Asteroid") || other.gameObject.CompareTag("Fighter")) {
             Destroy(gameObject);
         }
     }
