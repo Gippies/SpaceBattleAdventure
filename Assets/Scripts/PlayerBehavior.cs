@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,5 +31,11 @@ public class PlayerBehavior : MonoBehaviour {
     void Update() {
         UpdatePosition();
         FireBullets();
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.CompareTag("Asteroid")) {
+            Destroy(gameObject);
+        }
     }
 }
