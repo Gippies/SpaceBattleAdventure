@@ -5,8 +5,6 @@ public class PlayerBehavior : MonoBehaviour {
     public GameObject bullet;
 
     private const float Speed = 10.0f;
-    private const float LeftBound = -20.0f;
-    private const float RightBound = 20.0f;
     private const float BottomBound = -8.0f;
     private const float TopBound = 8.0f;
 
@@ -14,7 +12,7 @@ public class PlayerBehavior : MonoBehaviour {
         Vector3 velocity = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized * Speed;
         transform.Translate(velocity * Time.deltaTime);
         Vector3 pos = transform.position;
-        transform.position = new Vector3(Mathf.Clamp(pos.x, LeftBound, RightBound), Mathf.Clamp(pos.y, BottomBound, TopBound), pos.z);
+        transform.position = new Vector3(Mathf.Clamp(pos.x, Constants.FieldLeftBound, Constants.FieldRightBound), Mathf.Clamp(pos.y, BottomBound, TopBound), pos.z);
     }
 
     private void FireBullets() {
