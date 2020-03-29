@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidBehavior : MonoBehaviour {
+    
     private const float Speed = 3.0f;
     
     // Update is called once per frame

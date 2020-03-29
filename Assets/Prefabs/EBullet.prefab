@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 3318343886314111707}
   - component: {fileID: 3770720152730692699}
   - component: {fileID: 3318343886314111704}
-  - component: {fileID: 94723476857893178}
+  - component: {fileID: -8189848014319373185}
   m_Layer: 0
   m_Name: EBullet
-  m_TagString: Bullet
+  m_TagString: EBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,7 +112,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &94723476857893178
+--- !u!114 &-8189848014319373185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,6 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3318343886314111705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78c7b285953d8234397acf4dd725a35f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a420097569fd5e44b1f5de063f1d97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

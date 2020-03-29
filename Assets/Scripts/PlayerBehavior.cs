@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour {
-
+    
     public GameObject bullet;
 
     private const float Speed = 10.0f;
@@ -34,7 +34,7 @@ public class PlayerBehavior : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.CompareTag("Asteroid") || other.gameObject.CompareTag("Fighter")) {
+        if (other.gameObject.CompareTag("Asteroid") || other.gameObject.CompareTag("Fighter") || other.gameObject.CompareTag("EBullet")) {
             Destroy(gameObject);
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FighterSpawner : MonoBehaviour {
+    
     public GameObject fighter;
     
     private const float MaxSpawnTime = 5.0f;

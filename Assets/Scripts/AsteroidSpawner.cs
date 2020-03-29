@@ -5,6 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AsteroidSpawner : MonoBehaviour {
+    
     public GameObject asteroid;
     
     private const float MaxSpawnTime = 5.0f;
