@@ -3,15 +3,21 @@
 public class AsteroidBehavior : MonoBehaviour {
     
     private const float Speed = 3.0f;
-    
-    // Update is called once per frame
-    private void Update() {
+
+    private void UpdatePosition() {
         Vector3 velocity = Vector3.down * Speed;
         transform.Translate(velocity * Time.deltaTime, Space.Self);
+    }
 
-        if (transform.position.y < -50.0f) {
+    private void DestroyBehavior() {
+        if (transform.position.y < Constants.FieldBottomDeSpawn) {
             Destroy(gameObject);
         }
+    }
+
+    private void Update() {
+        UpdatePosition();
+        DestroyBehavior();
     }
 
     private void OnTriggerEnter(Collider other) {

@@ -9,7 +9,7 @@ public class BulletBehavior : MonoBehaviour {
         Vector3 velocity = Vector3.up * Speed;
         transform.Translate(velocity * Time.deltaTime, Space.Self);
 
-        if (transform.position.y > 50.0f) {
+        if (transform.position.y > Constants.FieldTopDeSpawn) {
             Destroy(gameObject);
         }
     }

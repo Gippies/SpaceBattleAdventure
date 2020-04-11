@@ -5,7 +5,6 @@ public class FighterSpawner : MonoBehaviour {
     public GameObject fighter;
     
     private const float MaxSpawnTime = 5.0f;
-    private const float TopBound = 15.0f;
 
     private float _timeRemaining;
 
@@ -19,7 +18,7 @@ public class FighterSpawner : MonoBehaviour {
             _timeRemaining -= Time.deltaTime;
         }
         else {
-            Instantiate(fighter, new Vector3(Random.Range(Constants.FieldLeftBound, Constants.FieldRightBound), TopBound, 0.0f), Quaternion.identity);
+            Instantiate(fighter, new Vector3(Random.Range(Constants.FieldLeftBound, Constants.FieldRightBound), Constants.FieldTopSpawn, 0.0f), Quaternion.identity);
             _timeRemaining = Random.Range(0.0f, MaxSpawnTime);
         }
     }

@@ -9,7 +9,7 @@ public class EBulletBehavior : MonoBehaviour {
         Vector3 velocity = Vector3.down * Speed;
         transform.Translate(velocity * Time.deltaTime, Space.Self);
 
-        if (transform.position.y < -50.0f) {
+        if (transform.position.y < Constants.FieldBottomDeSpawn) {
             Destroy(gameObject);
         }
     }

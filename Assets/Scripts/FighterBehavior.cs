@@ -6,8 +6,10 @@ public class FighterBehavior : MonoBehaviour {
     
     private const float Speed = 3.0f;
     private const float TimeBetweenBullets = 1.0f;
+    private const int InitHealth = 2;
 
     private float _timeBetweenBullets;
+    private int _health;
 
     private void UpdatePosition() {
         Vector3 velocity = Vector3.down * Speed;
@@ -21,26 +23,29 @@ public class FighterBehavior : MonoBehaviour {
             Instantiate(bullet, bulletPosition, Quaternion.identity);
             _timeBetweenBullets = TimeBetweenBullets;
         }
-        
+    }
+
+    private void DestroyBehavior() {
+        if (transform.position.y < Constants.FieldBottomDeSpawn || _health <= 0) {
+            Destroy(gameObject);
+        }
     }
 
     private void Start() {
         _timeBetweenBullets = TimeBetweenBullets;
+        _health = InitHealth;
     }
     
     // Update is called once per frame
     private void Update() {
         UpdatePosition();
         FireBullets();
-        
-        if (transform.position.y < -50.0f) {
-            Destroy(gameObject);
-        }
+        DestroyBehavior();
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Bullet")) {
-            Destroy(gameObject);
+            _health--;
             Destroy(other.gameObject);
         }
     }
