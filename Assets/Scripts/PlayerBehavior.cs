@@ -7,6 +7,9 @@ public class PlayerBehavior : MonoBehaviour {
     private const float Speed = 10.0f;
     private const float BottomBound = -8.0f;
     private const float TopBound = 8.0f;
+    private const int InitHealth = 3;
+
+    private int _health;
 
     private void UpdatePosition() {
         Vector3 velocity = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized * Speed;
@@ -22,16 +25,28 @@ public class PlayerBehavior : MonoBehaviour {
         }
     }
 
+    private void DestroyBehavior() {
+        if (_health <= 0) {
+            Destroy(gameObject);
+            FindObjectOfType<GameManager>().GameOver();
+        }
+    }
+
+    private void Start() {
+        _health = InitHealth;
+    }
+
     // Update is called once per frame
     private void Update() {
         UpdatePosition();
         FireBullets();
+        DestroyBehavior();
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Asteroid") || other.gameObject.CompareTag("Fighter") || other.gameObject.CompareTag("EBullet")) {
-            Destroy(gameObject);
-            FindObjectOfType<GameManager>().GameOver();
+            _health--;
+            Destroy(other.gameObject);
         }
     }
 }
