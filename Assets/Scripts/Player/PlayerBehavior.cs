@@ -3,6 +3,7 @@
 public class PlayerBehavior : MonoBehaviour {
     
     public GameObject bullet;
+    public HealthBarBehavior healthBar;
 
     private const float Speed = 10.0f;
     private const float BottomBound = -8.0f;
@@ -34,6 +35,7 @@ public class PlayerBehavior : MonoBehaviour {
 
     private void Start() {
         _health = InitHealth;
+        healthBar.SetHealth(_health);
     }
 
     // Update is called once per frame
@@ -46,6 +48,7 @@ public class PlayerBehavior : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Asteroid") || other.gameObject.CompareTag("Fighter") || other.gameObject.CompareTag("EBullet")) {
             _health--;
+            healthBar.SetHealth(_health);
             Destroy(other.gameObject);
         }
     }
