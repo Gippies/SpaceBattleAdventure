@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update() {
         if (_isGameOver && Input.GetKeyDown(KeyCode.R)) {
-            SceneManager.LoadScene("FlightScene");
+            SceneManager.LoadScene("Flight");
         }
     }
 }

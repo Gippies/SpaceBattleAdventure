@@ -12,7 +12,7 @@ public class PlayerBehavior : MonoBehaviour {
     private int _health;
 
     private void UpdatePosition() {
-        Vector3 velocity = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized * Speed;
+        Vector3 velocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized * Speed;
         transform.Translate(velocity * Time.deltaTime);
         Vector3 pos = transform.position;
         transform.position = new Vector3(Mathf.Clamp(pos.x, Constants.FieldLeftBound, Constants.FieldRightBound), Mathf.Clamp(pos.y, BottomBound, TopBound), pos.z);
