@@ -25,8 +25,7 @@ public class GameManager : MonoBehaviour {
         if (_isGameOver && Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene("Flight");
         }
-
-        if (!_isGameOver) {
+        else if (!_isGameOver) {
             _score += Time.deltaTime;
             scoreText.text = ((int) _score).ToString();
         }
