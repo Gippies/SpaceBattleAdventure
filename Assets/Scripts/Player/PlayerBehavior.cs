@@ -6,8 +6,6 @@ public class PlayerBehavior : MonoBehaviour {
     public HealthBarBehavior healthBar;
 
     private const float Speed = 10.0f;
-    private const float BottomBound = -8.0f;
-    private const float TopBound = 8.0f;
     private const int InitHealth = 3;
 
     private int _health;
@@ -15,8 +13,21 @@ public class PlayerBehavior : MonoBehaviour {
     private void UpdatePosition() {
         Vector3 velocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized * Speed;
         transform.Translate(velocity * Time.deltaTime);
-        Vector3 pos = transform.position;
-        transform.position = new Vector3(Mathf.Clamp(pos.x, Constants.FieldLeftBound, Constants.FieldRightBound), Mathf.Clamp(pos.y, BottomBound, TopBound), pos.z);
+        
+        Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+        if (viewportPos.x < 0.0) {
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.0f, viewportPos.y, viewportPos.z));
+        }
+        else if (viewportPos.x > 1.0) {
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(1.0f, viewportPos.y, viewportPos.z));;
+        }
+        
+        if (viewportPos.y < 0.0) {
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(viewportPos.x, 0.0f, viewportPos.z));
+        }
+        else if (viewportPos.y > 1.0) {
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(viewportPos.x, 1.0f, viewportPos.z));;
+        }
     }
 
     private void FireBullets() {
