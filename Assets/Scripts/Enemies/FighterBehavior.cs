@@ -12,7 +12,7 @@ public class FighterBehavior : MonoBehaviour {
     private int _health;
 
     private void UpdatePosition() {
-        Vector3 velocity = Vector3.down * Speed;
+        Vector3 velocity = Vector3.forward * Speed;
         transform.Translate(velocity * Time.deltaTime, Space.Self);
     }
 
