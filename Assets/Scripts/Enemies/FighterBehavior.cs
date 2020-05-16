@@ -3,6 +3,7 @@
 public class FighterBehavior : MonoBehaviour {
     
     public GameObject bullet;
+    public EHealthBarBehavior healthBar;
     
     private const float Speed = 3.0f;
     private const float TimeBetweenBullets = 1.0f;
@@ -34,6 +35,8 @@ public class FighterBehavior : MonoBehaviour {
     private void Start() {
         _timeBetweenBullets = TimeBetweenBullets;
         _health = InitHealth;
+        healthBar.SetMaxHealth(_health);
+        healthBar.SetHealth(_health);
     }
     
     // Update is called once per frame
@@ -46,6 +49,7 @@ public class FighterBehavior : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Bullet")) {
             _health--;
+            healthBar.SetHealth(_health);
             Destroy(other.gameObject);
         }
     }

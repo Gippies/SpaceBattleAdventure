@@ -6,7 +6,7 @@ public class PlayerBehavior : MonoBehaviour {
     public HealthBarBehavior healthBar;
 
     private const float Speed = 10.0f;
-    private const int InitHealth = 3;
+    private const int InitHealth = 5;
 
     private int _health;
 
@@ -46,6 +46,7 @@ public class PlayerBehavior : MonoBehaviour {
 
     private void Start() {
         _health = InitHealth;
+        healthBar.SetMaxHealth(_health);
         healthBar.SetHealth(_health);
     }
 
