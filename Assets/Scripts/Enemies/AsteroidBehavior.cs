@@ -22,7 +22,7 @@ namespace Enemies {
         }
 
         private void Start() {
-            _rotationDirection = new Vector3(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+            _rotationDirection = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
         }
 
         private void Update() {
