@@ -6,7 +6,7 @@ namespace Enemies {
         public GameObject bullet;
         public HealthBarBehavior healthBar;
     
-        private const float Speed = 3.0f;
+        private const float Speed = 5.0f;
         private const float TimeBetweenBullets = 1.0f;
         private const int InitHealth = 2;
 
