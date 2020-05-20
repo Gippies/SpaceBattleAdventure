@@ -5,60 +5,67 @@ using UnityEngine.UI;
 
 namespace Map {
     public class MapMenu : MonoBehaviour {
-        public Toggle initialToggle;
-        public List<Toggle> toggleList;
+        public GameObject toggleTemplate;
         public Button button;
 
-        private Dictionary<Toggle, bool> _wasToggleActiveDict;
+        private Toggle _currentLocation;
+        private List<Toggle> _toggles;
         private LineRenderer _lineRenderer;
 
-        private void Start() {
-            _wasToggleActiveDict = new Dictionary<Toggle, bool>();
-            foreach (Toggle t in toggleList) {
-                _wasToggleActiveDict[t] = false;
-            }
-            DrawLines();
+        private GameObject InitializeNewToggle(Vector3 position, bool isCurrent, string newToggleName) {
+            GameObject toggle = Instantiate(toggleTemplate, position, Quaternion.identity);
+            toggle.transform.SetParent(transform);
+            toggle.transform.localScale = Vector3.one;
+            toggle.transform.localPosition = new Vector3(toggle.transform.localPosition.x, toggle.transform.localPosition.y, 0.0f);
+            toggle.name = newToggleName;
+            toggle.GetComponentInChildren<Text>().text = newToggleName;
+            toggle.GetComponent<Toggle>().interactable = !isCurrent;
+            toggle.GetComponent<Toggle>().isOn = isCurrent;
+            toggle.AddComponent<Location>();
+
+            return toggle;
         }
 
-        private void DrawLines() {
-            GameObject lineObject = new GameObject("Line");
+        private void DrawLine(Vector3 start, Vector3 end) {
+            GameObject lineObject = new GameObject();
             _lineRenderer = lineObject.AddComponent<LineRenderer>();
             _lineRenderer.startWidth = 0.1f;
             _lineRenderer.endWidth = 0.1f;
-            _lineRenderer.positionCount = toggleList.Count + 1;
+            _lineRenderer.positionCount = 2;
 
-            List<Vector3> positionList = new List<Vector3> {
-                new Vector3(initialToggle.gameObject.transform.position.x, initialToggle.gameObject.transform.position.y, 0.0f)
-            };
-            for (int i = 0; i < toggleList.Count; i++) {
-                positionList.Add(new Vector3(toggleList[i].gameObject.transform.position.x, toggleList[i].gameObject.transform.position.y, 0.0f));
-            }
-        
-            _lineRenderer.SetPositions(positionList.ToArray());
+            Vector3[] positions = {new Vector3(start.x, start.y, 0.0f), new Vector3(end.x, end.y, 0.0f)};
+            _lineRenderer.SetPositions(positions);
         }
-    
+
+        private void Start() {
+            _toggles = new List<Toggle>();
+            GameObject toggle = InitializeNewToggle(Vector3.zero, true, "Dest 0");
+            _currentLocation = toggle.GetComponent<Toggle>();
+            _toggles.Add(_currentLocation);
+            
+            for (int i = 0; i < Mathf.RoundToInt(Random.Range(0.6f, 3.4f)); i++) {
+                GameObject newToggle = InitializeNewToggle(new Vector3(toggle.transform.position.x + toggle.transform.localScale.x * 2, i, 0.0f), false, "Dest " + (i + 1));
+                toggle.GetComponent<Location>().destinations.Add(newToggle);
+                DrawLine(toggle.transform.position, newToggle.transform.position);
+                
+                newToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate {
+                    SetDestination(newToggle.GetComponent<Toggle>());
+                });
+                _toggles.Add(newToggle.GetComponent<Toggle>());
+            }
+        }
+
         public void Engage() {
             SceneManager.LoadScene("Flight");
         }
 
-        public void SetDestination(bool b) {
-            bool setActive = false;
-            foreach (Toggle t in toggleList) {
-                if (b && t.isOn && _wasToggleActiveDict[t]) {
+        public void SetDestination(Toggle changedToggle) {
+            foreach (Toggle t in _toggles) {
+                if (t != changedToggle && changedToggle.isOn && t != _currentLocation) {
                     t.isOn = false;
-                    _wasToggleActiveDict[t] = false;
-                }
-                else if (b && t.isOn && !_wasToggleActiveDict[t]) {
-                    _wasToggleActiveDict[t] = true;
-                }
-                else if (!b && !t.isOn && _wasToggleActiveDict[t]) {
-                    _wasToggleActiveDict[t] = false;
-                }
-                if (t.isOn) {
-                    setActive = true;
                 }
             }
-            button.interactable = setActive;
+            button.interactable = changedToggle.isOn;
         }
     }
 }
