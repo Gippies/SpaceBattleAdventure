@@ -9,8 +9,10 @@ namespace Map {
         public Button button;
 
         private Toggle _currentLocation;
+        private Toggle _selectedLocation;
         private List<Toggle> _toggles;
         private LineRenderer _lineRenderer;
+        private float _widthOffset = 4.0f;
 
         private GameObject InitializeNewToggle(Vector3 position, bool isCurrent, string newToggleName) {
             GameObject toggle = Instantiate(toggleTemplate, position, Quaternion.identity);
@@ -18,10 +20,11 @@ namespace Map {
             toggle.transform.localScale = Vector3.one;
             toggle.transform.localPosition = new Vector3(toggle.transform.localPosition.x, toggle.transform.localPosition.y, -100.0f);
             toggle.name = newToggleName;
-            toggle.GetComponentInChildren<Text>().text = newToggleName;
             toggle.GetComponent<Toggle>().interactable = !isCurrent;
             toggle.GetComponent<Toggle>().isOn = isCurrent;
-            toggle.AddComponent<Location>();
+            Location locData = toggle.AddComponent<Location>();
+            locData.difficulty = 5.0f;
+            toggle.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + locData.difficulty;
 
             return toggle;
         }
@@ -44,8 +47,7 @@ namespace Map {
             _toggles.Add(_currentLocation);
             
             for (int i = 0; i < Mathf.RoundToInt(Random.Range(0.6f, 3.4f)); i++) {
-                GameObject newToggle = InitializeNewToggle(new Vector3(toggle.transform.position.x + toggle.transform.localScale.x * 2, i, 0.0f), false, "Dest " + (i + 1));
-                toggle.GetComponent<Location>().destinations.Add(newToggle);
+                GameObject newToggle = InitializeNewToggle(new Vector3(toggle.transform.position.x + _widthOffset, i, 0.0f), false, "Dest " + (i + 1));
                 DrawLine(toggle.transform.position, newToggle.transform.position);
                 
                 newToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate {
@@ -60,6 +62,9 @@ namespace Map {
         }
 
         public void SetDestination(Toggle changedToggle) {
+            if (changedToggle.isOn) {
+                _selectedLocation = changedToggle;
+            }
             foreach (Toggle t in _toggles) {
                 if (t != changedToggle && changedToggle.isOn && t != _currentLocation) {
                     t.isOn = false;

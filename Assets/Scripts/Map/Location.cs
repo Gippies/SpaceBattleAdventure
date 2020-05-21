@@ -3,6 +3,6 @@ using UnityEngine;
 
 namespace Map {
     public class Location : MonoBehaviour {
-        public List<GameObject> destinations { get; } = new List<GameObject>();
+        public float difficulty { get; set; }
     }
 }

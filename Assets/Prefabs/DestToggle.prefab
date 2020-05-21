@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9, y: -0.5}
-  m_SizeDelta: {x: -28, y: -3}
+  m_AnchoredPosition: {x: 11.500999, y: -0.046884537}
+  m_SizeDelta: {x: -23.002167, y: -3.9062042}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &596466295591664231
 CanvasRenderer:
@@ -77,7 +77,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Dest 0
+  m_Text: 'Dest 0 Difficulty: 5.0'
 --- !u!1 &596466295838475132
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 596466295917010769}
   - component: {fileID: 596466295917010768}
   m_Layer: 5
-  m_Name: Dest0Toggle
+  m_Name: DestToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,8 +187,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -234.4, y: -38.6}
-  m_SizeDelta: {x: 75.14203, y: 21.195175}
+  m_AnchoredPosition: {x: -194.76, y: -38.96}
+  m_SizeDelta: {x: 154.4236, y: 21.90622}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &596466295917010768
 MonoBehaviour:
