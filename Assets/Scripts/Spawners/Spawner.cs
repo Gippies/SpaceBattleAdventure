@@ -2,9 +2,9 @@
 using UnityEngine;
 
 namespace Spawners {
-    public class FighterSpawner : MonoBehaviour {
+    public class Spawner : MonoBehaviour {
     
-        public GameObject fighter;
+        public GameObject objectToSpawn;
     
         private const float MaxSpawnTime = 5.0f;
 
@@ -23,7 +23,7 @@ namespace Spawners {
                 _timeRemaining -= Time.deltaTime;
             }
             else {
-                Instantiate(fighter, new Vector3(Random.Range(Constants.FieldLeftBound, Constants.FieldRightBound), Constants.FieldTopSpawn, 0.0f), Quaternion.Euler(new Vector3(90, 0, 180)));
+                Instantiate(objectToSpawn, new Vector3(Random.Range(Constants.FieldLeftBound, Constants.FieldRightBound), Constants.FieldTopSpawn, 0.0f), Quaternion.Euler(new Vector3(90, 0, 180)));
                 _timeRemaining = Random.Range(0.0f, _spawnTime);
             }
         }

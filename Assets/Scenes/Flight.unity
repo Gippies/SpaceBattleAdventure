@@ -674,8 +674,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1434099777}
-  - component: {fileID: 1434099776}
   - component: {fileID: 1434099778}
+  - component: {fileID: 1434099776}
   m_Layer: 0
   m_Name: Root Spawner
   m_TagString: Untagged
@@ -692,10 +692,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1434099775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0e8410bd63589244afdd0f9ecb10594, type: 3}
+  m_Script: {fileID: 11500000, guid: b876de1dd5bb7db4fa3c7e9f0b892fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroid: {fileID: 5380490370495691395, guid: 647ff30720c76194d98443f1345f584d,
+  objectToSpawn: {fileID: 309295176547093148, guid: c1b94d815f986f74ab4dd341c7c2cab3,
     type: 3}
 --- !u!4 &1434099777
 Transform:
@@ -723,7 +723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b876de1dd5bb7db4fa3c7e9f0b892fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fighter: {fileID: 309295176547093148, guid: c1b94d815f986f74ab4dd341c7c2cab3, type: 3}
+  objectToSpawn: {fileID: 5380490370495691395, guid: 647ff30720c76194d98443f1345f584d,
+    type: 3}
 --- !u!1 &1568945893
 GameObject:
   m_ObjectHideFlags: 0
