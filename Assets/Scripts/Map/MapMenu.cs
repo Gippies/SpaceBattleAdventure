@@ -8,13 +8,14 @@ namespace Map {
         public GameObject toggleTemplate;
         public Button button;
 
-        private Toggle _currentLocation;
-        private Toggle _selectedLocation;
-        private List<Toggle> _toggles;
+        private Location _currentLocation;
+        private Location _selectedLocation;
+        private List<Location> _locations;
         private LineRenderer _lineRenderer;
         private float _widthOffset = 4.0f;
 
-        private GameObject InitializeNewToggle(Vector3 position, bool isCurrent, string newToggleName) {
+        private Location InitializeNewLocation(Vector3 position, bool isCurrent, string newToggleName, float difficulty) {
+            Location location = new Location();
             GameObject toggle = Instantiate(toggleTemplate, position, Quaternion.identity);
             toggle.transform.SetParent(transform);
             toggle.transform.localScale = Vector3.one;
@@ -22,11 +23,11 @@ namespace Map {
             toggle.name = newToggleName;
             toggle.GetComponent<Toggle>().interactable = !isCurrent;
             toggle.GetComponent<Toggle>().isOn = isCurrent;
-            Location locData = toggle.AddComponent<Location>();
-            locData.difficulty = 5.0f;
-            toggle.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + locData.difficulty;
+            location.toggle = toggle.GetComponent<Toggle>();
+            location.difficulty = difficulty;
+            toggle.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + location.difficulty;
 
-            return toggle;
+            return location;
         }
 
         private void DrawLine(Vector3 start, Vector3 end) {
@@ -41,19 +42,19 @@ namespace Map {
         }
 
         private void Start() {
-            _toggles = new List<Toggle>();
-            GameObject toggle = InitializeNewToggle(Vector3.zero, true, "Dest 0");
-            _currentLocation = toggle.GetComponent<Toggle>();
-            _toggles.Add(_currentLocation);
+            _locations = new List<Location>();
+            Location firstLoc = InitializeNewLocation(Vector3.zero, true, "Dest 0", 0.0f);
+            _currentLocation = firstLoc;
+            _locations.Add(_currentLocation);
             
             for (int i = 0; i < Mathf.RoundToInt(Random.Range(0.6f, 3.4f)); i++) {
-                GameObject newToggle = InitializeNewToggle(new Vector3(toggle.transform.position.x + _widthOffset, i, 0.0f), false, "Dest " + (i + 1));
-                DrawLine(toggle.transform.position, newToggle.transform.position);
+                Location newLoc = InitializeNewLocation(new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i, 0.0f), false, "Dest " + (i + 1), i + 1);
+                DrawLine(firstLoc.toggle.transform.position, newLoc.toggle.transform.position);
                 
-                newToggle.GetComponent<Toggle>().onValueChanged.AddListener(delegate {
-                    SetDestination(newToggle.GetComponent<Toggle>());
+                newLoc.toggle.onValueChanged.AddListener(delegate {
+                    SetDestination(newLoc);
                 });
-                _toggles.Add(newToggle.GetComponent<Toggle>());
+                _locations.Add(newLoc);
             }
         }
 
@@ -61,16 +62,16 @@ namespace Map {
             SceneManager.LoadScene("Flight");
         }
 
-        public void SetDestination(Toggle changedToggle) {
-            if (changedToggle.isOn) {
-                _selectedLocation = changedToggle;
+        private void SetDestination(Location changedLoc) {
+            if (changedLoc.toggle.isOn) {
+                _selectedLocation = changedLoc;
             }
-            foreach (Toggle t in _toggles) {
-                if (t != changedToggle && changedToggle.isOn && t != _currentLocation) {
-                    t.isOn = false;
+            foreach (Location l in _locations) {
+                if (l != changedLoc && changedLoc.toggle.isOn && l != _currentLocation) {
+                    l.toggle.isOn = false;
                 }
             }
-            button.interactable = changedToggle.isOn;
+            button.interactable = changedLoc.toggle.isOn;
         }
     }
 }

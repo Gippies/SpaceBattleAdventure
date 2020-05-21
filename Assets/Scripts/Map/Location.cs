@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine.UI;
 
 namespace Map {
-    public class Location : MonoBehaviour {
+    public class Location {
         public float difficulty { get; set; }
+        public Toggle toggle { get; set; }
     }
 }
