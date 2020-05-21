@@ -16,7 +16,7 @@ namespace Map {
             GameObject toggle = Instantiate(toggleTemplate, position, Quaternion.identity);
             toggle.transform.SetParent(transform);
             toggle.transform.localScale = Vector3.one;
-            toggle.transform.localPosition = new Vector3(toggle.transform.localPosition.x, toggle.transform.localPosition.y, 0.0f);
+            toggle.transform.localPosition = new Vector3(toggle.transform.localPosition.x, toggle.transform.localPosition.y, -100.0f);
             toggle.name = newToggleName;
             toggle.GetComponentInChildren<Text>().text = newToggleName;
             toggle.GetComponent<Toggle>().interactable = !isCurrent;
