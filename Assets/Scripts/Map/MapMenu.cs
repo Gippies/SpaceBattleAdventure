@@ -48,7 +48,12 @@ namespace Map {
             _locations.Add(_currentLocation);
             
             for (int i = 0; i < Mathf.RoundToInt(Random.Range(0.6f, 3.4f)); i++) {
-                Location newLoc = InitializeNewLocation(new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i, 0.0f), false, "Dest " + (i + 1), i + 1);
+                Location newLoc = InitializeNewLocation(
+                    new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i, 0.0f), 
+                    false, 
+                    "Dest " + (i + 1), 
+                    i + 1
+                    );
                 DrawLine(firstLoc.toggle.transform.position, newLoc.toggle.transform.position);
                 
                 newLoc.toggle.onValueChanged.AddListener(delegate {
@@ -59,6 +64,7 @@ namespace Map {
         }
 
         public void Engage() {
+            SaveSystem.SaveLocation(_selectedLocation);
             SceneManager.LoadScene("Flight");
         }
 
