@@ -12,6 +12,7 @@ namespace Map {
         private Location _selectedLocation;
         private List<Location> _locations;
         private LineRenderer _lineRenderer;
+        private int _highestId = 1;
         private float _widthOffset = 4.0f;
 
         private Location InitializeNewLocation(Vector3 position, bool isCurrent, string newToggleName, float difficulty) {
@@ -23,6 +24,8 @@ namespace Map {
             toggle.name = newToggleName;
             toggle.GetComponent<Toggle>().interactable = !isCurrent;
             toggle.GetComponent<Toggle>().isOn = isCurrent;
+            location.id = _highestId;
+            _highestId++;
             location.toggle = toggle.GetComponent<Toggle>();
             location.difficulty = difficulty;
             toggle.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + location.difficulty;
