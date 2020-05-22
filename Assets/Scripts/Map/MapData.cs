@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Map {
     [Serializable]
     public class MapData {
-        public List<LocationData> locations;
+        public LocationData rootLocation;
 
-        public MapData(List<Location> locs) {
-            locations = new List<LocationData>();
-            foreach (Location l in locs) {
-                locations.Add(new LocationData(l));
-            }
+        public MapData(Location location) {
+            rootLocation = new LocationData(location);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ namespace Map {
         }
 
         public static object LoadStuff(string path) {
-            if (File.Exists(_selectedLocationPath)) {
+            if (File.Exists(path)) {
                 BinaryFormatter formatter = new BinaryFormatter();
                 FileStream stream = new FileStream(path, FileMode.Open);
 
@@ -31,9 +30,13 @@ namespace Map {
             Debug.LogError("Save file not found in " + path);
             return null;
         }
+
+        public static bool MapExists() {
+            return File.Exists(_mapPath);
+        }
         
-        public static void SaveMapData(List<Location> locations) {
-            MapData data = new MapData(locations);
+        public static void SaveMapData(Location location) {
+            MapData data = new MapData(location);
             SaveStuff(_mapPath, data);
         }
         

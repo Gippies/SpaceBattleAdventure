@@ -8,9 +8,8 @@ namespace Map {
         public GameObject toggleTemplate;
         public Button button;
 
-        private Location _currentLocation;
+        private Location _rootLocation;
         private Location _selectedLocation;
-        private List<Location> _locations;
         private LineRenderer _lineRenderer;
         private int _highestId = 1;
         private float _widthOffset = 4.0f;
@@ -23,11 +22,12 @@ namespace Map {
             toggle.transform.localPosition = new Vector3(toggle.transform.localPosition.x, toggle.transform.localPosition.y, -100.0f);
             toggle.name = newToggleName;
             toggle.GetComponent<Toggle>().interactable = !isCurrent;
-            toggle.GetComponent<Toggle>().isOn = isCurrent;
+            toggle.GetComponent<Toggle>().isOn = false;
             location.id = _highestId;
             _highestId++;
             location.toggle = toggle.GetComponent<Toggle>();
             location.difficulty = difficulty;
+            location.isCurrent = isCurrent;
             toggle.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + location.difficulty;
 
             return location;
@@ -44,26 +44,54 @@ namespace Map {
             _lineRenderer.SetPositions(positions);
         }
 
-        private void Start() {
-            _locations = new List<Location>();
+        private void GenerateMap() {
             Location firstLoc = InitializeNewLocation(Vector3.zero, true, "Dest 0", 0.0f);
-            _currentLocation = firstLoc;
-            _locations.Add(_currentLocation);
+            _rootLocation = firstLoc;
             
-            for (int i = 0; i < Mathf.RoundToInt(Random.Range(0.6f, 3.4f)); i++) {
+            firstLoc.toggle.onValueChanged.AddListener(delegate {
+                SetDestination(firstLoc);
+            });
+
+            for (int i = 0; i < Mathf.RoundToInt(Random.Range(1.6f, 4.4f)); i++) {
                 Location newLoc = InitializeNewLocation(
                     new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i, 0.0f), 
                     false, 
                     "Dest " + (i + 1), 
-                    i + 1
-                    );
+                    Mathf.Round(Random.Range(0.6f, 3.4f))
+                );
                 DrawLine(firstLoc.toggle.transform.position, newLoc.toggle.transform.position);
                 
                 newLoc.toggle.onValueChanged.AddListener(delegate {
                     SetDestination(newLoc);
                 });
-                _locations.Add(newLoc);
+                firstLoc.destinations.Add(newLoc);
             }
+        }
+
+        private Location LoadMap(LocationData locationData) {
+            Vector3 locDataTransform = new Vector3(locationData.toggleVector3[0], locationData.toggleVector3[1], locationData.toggleVector3[2]);
+            Location newLoc = InitializeNewLocation(locDataTransform, locationData.isCurrent, locationData.name, locationData.difficulty);
+            
+            newLoc.toggle.onValueChanged.AddListener(delegate {
+                SetDestination(newLoc);
+            });
+            foreach (LocationData destinationData in locationData.destinations) {
+                DrawLine(locDataTransform, new Vector3(destinationData.toggleVector3[0], destinationData.toggleVector3[1], destinationData.toggleVector3[2]));
+                newLoc.destinations.Add(LoadMap(destinationData));
+            }
+
+            return newLoc;
+        }
+
+        private void Start() {
+            if (!SaveSystem.MapExists()) {
+                GenerateMap();
+            }
+            else {
+                _rootLocation = LoadMap(SaveSystem.LoadMapData().rootLocation);
+            }
+            
+            SaveSystem.SaveMapData(_rootLocation);
         }
 
         public void Engage() {
@@ -71,15 +99,21 @@ namespace Map {
             SceneManager.LoadScene("Flight");
         }
 
+        private void CheckToggled(Location location, Location changedLoc) {
+            if (location != changedLoc && changedLoc.toggle.isOn && !location.isCurrent) {
+                location.toggle.isOn = false;
+            }
+
+            foreach (Location loc in location.destinations) {
+                CheckToggled(loc, changedLoc);
+            }
+        }
+
         private void SetDestination(Location changedLoc) {
             if (changedLoc.toggle.isOn) {
                 _selectedLocation = changedLoc;
             }
-            foreach (Location l in _locations) {
-                if (l != changedLoc && changedLoc.toggle.isOn && l != _currentLocation) {
-                    l.toggle.isOn = false;
-                }
-            }
+            CheckToggled(_rootLocation, changedLoc);
             button.interactable = changedLoc.toggle.isOn;
         }
     }
