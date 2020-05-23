@@ -16,19 +16,19 @@ namespace Map {
 
         private Location InitializeNewLocation(Vector3 position, bool isCurrent, string newToggleName, float difficulty) {
             Location location = new Location();
-            GameObject toggle = Instantiate(toggleTemplate, position, Quaternion.identity);
-            toggle.transform.SetParent(transform);
-            toggle.transform.localScale = Vector3.one;
-            toggle.transform.localPosition = new Vector3(toggle.transform.localPosition.x, toggle.transform.localPosition.y, -100.0f);
-            toggle.name = newToggleName;
-            toggle.GetComponent<Toggle>().interactable = !isCurrent;
-            toggle.GetComponent<Toggle>().isOn = false;
+            GameObject toggleGameObject = Instantiate(toggleTemplate, position, Quaternion.identity);
+            toggleGameObject.transform.SetParent(transform);
+            toggleGameObject.transform.localScale = Vector3.one;
+            toggleGameObject.transform.localPosition = new Vector3(toggleGameObject.transform.localPosition.x, toggleGameObject.transform.localPosition.y, -51.0f);
+            toggleGameObject.name = newToggleName;
+            toggleGameObject.GetComponent<Toggle>().interactable = !isCurrent;
+            toggleGameObject.GetComponent<Toggle>().isOn = false;
             location.id = _highestId;
             _highestId++;
-            location.toggle = toggle.GetComponent<Toggle>();
+            location.toggle = toggleGameObject.GetComponent<Toggle>();
             location.difficulty = difficulty;
             location.isCurrent = isCurrent;
-            toggle.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + location.difficulty;
+            toggleGameObject.GetComponentInChildren<Text>().text = newToggleName + " Difficulty: " + location.difficulty;
 
             return location;
         }
@@ -45,7 +45,7 @@ namespace Map {
         }
 
         private void GenerateMap() {
-            Location firstLoc = InitializeNewLocation(Vector3.zero, true, "Dest 0", 0.0f);
+            Location firstLoc = InitializeNewLocation(new Vector3(-5.0f, 0.0f, 0.0f), true, "Dest 0", 0.0f);
             _rootLocation = firstLoc;
             
             firstLoc.toggle.onValueChanged.AddListener(delegate {
@@ -54,7 +54,7 @@ namespace Map {
 
             for (int i = 0; i < Mathf.RoundToInt(Random.Range(1.6f, 4.4f)); i++) {
                 Location newLoc = InitializeNewLocation(
-                    new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i, 0.0f), 
+                    new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i - 1, 0.0f), 
                     false, 
                     "Dest " + (i + 1), 
                     Mathf.Round(Random.Range(0.6f, 3.4f))
