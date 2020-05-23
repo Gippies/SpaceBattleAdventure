@@ -40,7 +40,7 @@ namespace Map {
         }
         
         public static void SaveMapData(Location location) {
-            MapData data = new MapData(location);
+            LocationData data = new LocationData(location);
             SaveStuff(_mapPath, data);
         }
         
@@ -49,8 +49,8 @@ namespace Map {
             SaveStuff(_selectedLocationPath, data);
         }
 
-        public static MapData LoadMapData() {
-            return (MapData) LoadStuff(_mapPath);
+        public static LocationData LoadMapData() {
+            return (LocationData) LoadStuff(_mapPath);
         }
 
         public static LocationData LoadLocation() {
