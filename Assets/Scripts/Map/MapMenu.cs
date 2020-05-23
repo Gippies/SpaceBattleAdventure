@@ -86,12 +86,16 @@ namespace Map {
         private void Start() {
             if (!SaveSystem.MapExists()) {
                 GenerateMap();
+                SaveSystem.SaveMapData(_rootLocation);
             }
             else {
                 _rootLocation = LoadMap(SaveSystem.LoadMapData().rootLocation);
             }
-            
-            SaveSystem.SaveMapData(_rootLocation);
+        }
+
+        public void ResetMap() {
+            SaveSystem.DeleteMapData();
+            SceneManager.LoadScene("Map");
         }
 
         public void Engage() {

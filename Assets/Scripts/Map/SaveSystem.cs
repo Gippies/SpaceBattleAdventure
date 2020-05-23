@@ -34,6 +34,10 @@ namespace Map {
         public static bool MapExists() {
             return File.Exists(_mapPath);
         }
+
+        public static void DeleteMapData() {
+            File.Delete(_mapPath);
+        }
         
         public static void SaveMapData(Location location) {
             MapData data = new MapData(location);
