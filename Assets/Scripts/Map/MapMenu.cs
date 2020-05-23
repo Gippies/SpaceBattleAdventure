@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -35,6 +34,7 @@ namespace Map {
 
         private void DrawLine(Vector3 start, Vector3 end) {
             GameObject lineObject = new GameObject();
+            lineObject.name = "Line";
             _lineRenderer = lineObject.AddComponent<LineRenderer>();
             _lineRenderer.startWidth = 0.1f;
             _lineRenderer.endWidth = 0.1f;
@@ -44,28 +44,37 @@ namespace Map {
             _lineRenderer.SetPositions(positions);
         }
 
+        private void RecursiveGenerateMap(Location location, int layer, int[] verticalPositions) {
+            if (layer < 5) {
+                for (int i = 0; i < Mathf.RoundToInt(Random.Range(0.6f, 2.4f)); i++) {
+                    Location newLoc = InitializeNewLocation(
+                        new Vector3(location.toggle.transform.position.x + _widthOffset, verticalPositions[layer], 0.0f), 
+                        false, 
+                        "Dest " + (i + 1), 
+                        Mathf.Round(Random.Range(0.6f, 3.4f))
+                    );
+                    verticalPositions[layer]++;
+                    DrawLine(location.toggle.transform.position, newLoc.toggle.transform.position);
+                
+                    newLoc.toggle.onValueChanged.AddListener(delegate {
+                        SetDestination(newLoc);
+                    });
+                    location.destinations.Add(newLoc);
+                    RecursiveGenerateMap(newLoc, layer + 1, verticalPositions);
+                }
+            }
+        }
+
         private void GenerateMap() {
-            Location firstLoc = InitializeNewLocation(new Vector3(-6.0f, 0.0f, 0.0f), true, "Dest 0", 0.0f);
+            Location firstLoc = InitializeNewLocation(new Vector3(-7.0f, 0.0f, 0.0f), true, "Dest 0", 0.0f);
             _rootLocation = firstLoc;
             
             firstLoc.toggle.onValueChanged.AddListener(delegate {
                 SetDestination(firstLoc);
             });
 
-            for (int i = 0; i < Mathf.RoundToInt(Random.Range(1.6f, 4.4f)); i++) {
-                Location newLoc = InitializeNewLocation(
-                    new Vector3(firstLoc.toggle.transform.position.x + _widthOffset, i - 1, 0.0f), 
-                    false, 
-                    "Dest " + (i + 1), 
-                    Mathf.Round(Random.Range(0.6f, 3.4f))
-                );
-                DrawLine(firstLoc.toggle.transform.position, newLoc.toggle.transform.position);
-                
-                newLoc.toggle.onValueChanged.AddListener(delegate {
-                    SetDestination(newLoc);
-                });
-                firstLoc.destinations.Add(newLoc);
-            }
+            int[] verticalPosition = new int[5];
+            RecursiveGenerateMap(firstLoc, 1, verticalPosition);
         }
 
         private Location LoadMap(LocationData locationData) {
