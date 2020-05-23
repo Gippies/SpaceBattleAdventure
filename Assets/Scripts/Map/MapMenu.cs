@@ -45,7 +45,7 @@ namespace Map {
         }
 
         private void GenerateMap() {
-            Location firstLoc = InitializeNewLocation(new Vector3(-5.0f, 0.0f, 0.0f), true, "Dest 0", 0.0f);
+            Location firstLoc = InitializeNewLocation(new Vector3(-6.0f, 0.0f, 0.0f), true, "Dest 0", 0.0f);
             _rootLocation = firstLoc;
             
             firstLoc.toggle.onValueChanged.AddListener(delegate {
