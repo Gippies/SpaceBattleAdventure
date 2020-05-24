@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 namespace Map {
     public class MapMenu : MonoBehaviour {
+        public Material lineMaterial;
         public GameObject toggleTemplate;
         public Button button;
 
         private Dictionary<Location, Toggle> _locToggleDict;
-        private LineRenderer _lineRenderer;
         private float _widthOffset = 4.0f;
 
         private void InitializeNewToggle(Location parent, Location location) {
@@ -33,13 +33,14 @@ namespace Map {
         private void DrawLine(Vector3 start, Vector3 end) {
             GameObject lineObject = new GameObject();
             lineObject.name = "Line";
-            _lineRenderer = lineObject.AddComponent<LineRenderer>();
-            _lineRenderer.startWidth = 0.1f;
-            _lineRenderer.endWidth = 0.1f;
-            _lineRenderer.positionCount = 2;
+            LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
+            lineRenderer.startWidth = 0.1f;
+            lineRenderer.endWidth = 0.1f;
+            lineRenderer.positionCount = 2;
+            lineRenderer.material = lineMaterial;
 
             Vector3[] positions = {new Vector3(start.x, start.y, 0.0f), new Vector3(end.x, end.y, 0.0f)};
-            _lineRenderer.SetPositions(positions);
+            lineRenderer.SetPositions(positions);
         }
 
         private void RecursiveGenerateMap(Location location, int layer, int[] verticalPositions) {

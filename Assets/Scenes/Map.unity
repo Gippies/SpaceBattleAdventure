@@ -749,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c1a8feebffc3c488539ea486b7179f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineMaterial: {fileID: 2100000, guid: b8f290e285fb47c4fba47e4c322d4c14, type: 2}
   toggleTemplate: {fileID: 596466295917010770, guid: fbb27b10f4b4ae740a486f5b253bfe2f,
     type: 3}
   button: {fileID: 1146981377}
