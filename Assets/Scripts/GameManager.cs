@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Map;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour {
 
     public void MissionComplete() {
         missionCompleteText.gameObject.SetActive(true);
+        LocationManager.CurrentLocation = LocationManager.SelectedLocation;
         _isComplete = true;
     }
 

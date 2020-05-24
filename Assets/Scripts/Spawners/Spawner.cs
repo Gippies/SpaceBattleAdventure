@@ -12,8 +12,7 @@ namespace Spawners {
         private float _timeRemaining;
 
         private void Start() {
-            LocationData locData = SaveSystem.LoadLocation();
-            _spawnTime = MaxSpawnTime / locData.difficulty;
+            _spawnTime = MaxSpawnTime / LocationManager.SelectedLocation.difficulty;
             _timeRemaining = Random.Range(0.0f, _spawnTime);
         }
 
